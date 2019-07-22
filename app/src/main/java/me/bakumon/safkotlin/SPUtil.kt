@@ -1,4 +1,4 @@
-package com.coolapk.safkotlin
+package me.bakumon.safkotlin
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -15,5 +15,10 @@ fun saveUri(context: Context, uri: Uri) {
 
 fun getUri(context: Context): Uri? {
     val sharedPreferences = context.getSharedPreferences("settings", MODE_PRIVATE)
-    return Uri.parse(sharedPreferences.getString("uri", ""))
+    val uri = sharedPreferences.getString("uri", "")
+    return if (uri.isNullOrEmpty()) {
+        null
+    } else {
+        Uri.parse(uri)
+    }
 }

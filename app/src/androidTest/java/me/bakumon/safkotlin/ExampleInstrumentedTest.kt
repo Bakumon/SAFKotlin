@@ -1,4 +1,4 @@
-package com.coolapk.safkotlin
+package me.bakumon.safkotlin
 
 import androidx.test.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getTargetContext()
-        assertEquals("com.coolapk.safkotlin", appContext.packageName)
+        assertEquals("me.bakumon.safkotlin", appContext.packageName)
     }
 }

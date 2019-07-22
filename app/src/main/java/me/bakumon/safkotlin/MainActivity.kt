@@ -1,9 +1,8 @@
-package com.coolapk.safkotlin
+package me.bakumon.safkotlin
 
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.documentfile.provider.DocumentFile
@@ -19,10 +18,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        open.setOnClickListener { open() }
         save.setOnClickListener { save() }
     }
 
-    fun open(view: View) {
+    private fun open() {
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE)
         startActivityForResult(intent, OPEN_DIRECTORY_REQUEST_CODE)
     }

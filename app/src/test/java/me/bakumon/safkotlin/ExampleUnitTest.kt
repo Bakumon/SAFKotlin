@@ -1,4 +1,4 @@
-package com.coolapk.safkotlin
+package me.bakumon.safkotlin
 
 import org.junit.Test
 
