@@ -29,29 +29,26 @@ public class BridgeFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == OPEN_DIRECTORY_REQUEST_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
-                Uri directoryUri = data.getData();
-                if (directoryUri != null) {
-                    final FragmentActivity fragmentActivity = getActivity();
-                    if (fragmentActivity != null) {
-                        final int takeFlags = (Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-                        fragmentActivity.getContentResolver().takePersistableUriPermission(directoryUri, takeFlags);
-                        // 成功
-                        if (mCallback != null) {
-                            mCallback.result(directoryUri);
-                        }
-                    } else {
-                        // 失败
-                        denied();
-                    }
-                } else {
-                    // 失败
-                    denied();
-                }
-            } else {
-                // 失败
+            if (resultCode != Activity.RESULT_OK || data == null) {
                 denied();
+                return;
             }
+            Uri directoryUri = data.getData();
+            final FragmentActivity fragmentActivity = getActivity();
+            if (directoryUri == null || fragmentActivity == null) {
+                denied();
+                return;
+            }
+            // 保留权限
+            final int takeFlags = (Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+            fragmentActivity.getContentResolver().takePersistableUriPermission(directoryUri, takeFlags);
+            granted(directoryUri);
+        }
+    }
+
+    private void granted(Uri uri) {
+        if (mCallback != null) {
+            mCallback.result(uri);
         }
     }
 

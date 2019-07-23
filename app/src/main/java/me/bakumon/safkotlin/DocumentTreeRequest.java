@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import org.jetbrains.annotations.NotNull;
 
 public class DocumentTreeRequest {
 
@@ -15,28 +16,28 @@ public class DocumentTreeRequest {
         void result(@Nullable Uri uri);
     }
 
-    public DocumentTreeRequest(AppCompatActivity activity) {
+    public DocumentTreeRequest(@NotNull AppCompatActivity activity) {
         mBridgeFragment = getOnResultFragment(activity.getSupportFragmentManager());
     }
 
-    public DocumentTreeRequest(Fragment fragment) {
+    public DocumentTreeRequest(@NotNull Fragment fragment) {
         mBridgeFragment = getOnResultFragment(fragment.getChildFragmentManager());
     }
 
     private BridgeFragment getOnResultFragment(FragmentManager fragmentManager) {
-        BridgeFragment simpleOnResultFragment = findSimpleOnResultFragment(fragmentManager);
-        if (simpleOnResultFragment == null) {
-            simpleOnResultFragment = new BridgeFragment();
+        BridgeFragment bridgeFragment = findSimpleOnResultFragment(fragmentManager);
+        if (bridgeFragment == null) {
+            bridgeFragment = new BridgeFragment();
             fragmentManager
                     .beginTransaction()
-                    .add(simpleOnResultFragment, TAG)
+                    .add(bridgeFragment, TAG)
                     .commitAllowingStateLoss();
             fragmentManager.executePendingTransactions();
         }
-        return simpleOnResultFragment;
+        return bridgeFragment;
     }
 
-    private BridgeFragment findSimpleOnResultFragment(FragmentManager fragmentManager) {
+    private BridgeFragment findSimpleOnResultFragment(@NotNull FragmentManager fragmentManager) {
         return (BridgeFragment) fragmentManager.findFragmentByTag(TAG);
     }
 
